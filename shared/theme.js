@@ -51,6 +51,9 @@ export class ThemeManager {
         // so reacting blindly would loop forever (and make the whole shell lag).
         const ctx = St.ThemeContext.get_for_stage(global.stage);
         this._ids.push([ctx, ctx.connect('changed', () => {
+            // ignore the signals our own load/unload emit (that was a feedback loop)
+            if (this._busy)
+                return;
             if (this._file && !this._isLoaded()) {
                 this._file = null;   // that theme object is gone, nothing to unload
                 this._lastCss = null;
@@ -59,6 +62,7 @@ export class ThemeManager {
         })]);
 
         GLib.mkdir_with_parents(CACHE_DIR, 0o755);
+        this._cleanCache();
         this._apply();
     }
 
@@ -108,21 +112,49 @@ export class ThemeManager {
             logError(e, `${this._ext.uuid}: writing theme css`);
             return;
         }
-        this._unload();
-        St.ThemeContext.get_for_stage(global.stage).get_theme().load_stylesheet(file);
-        this._file = file;
+        this._busy = true;
+        try {
+            this._unload();
+            St.ThemeContext.get_for_stage(global.stage).get_theme().load_stylesheet(file);
+            this._file = file;
+        } catch (e) {
+            logError(e, `${this._ext.uuid}: loading theme css`);
+        } finally {
+            this._busy = false;
+        }
     }
 
     _unload() {
-        if (!this._file)
+        const file = this._file;
+        if (!file)
             return;
-        try {
-            St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(this._file);
-        } catch (e) {}
-        try {
-            this._file.delete(null);
-        } catch (e) {}
         this._file = null;
+        const wasBusy = this._busy;
+        this._busy = true;
+        try {
+            St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(file);
+        } catch (e) {
+        } finally {
+            this._busy = wasBusy;
+        }
+        try {
+            file.delete(null);
+        } catch (e) {}
+    }
+
+    // remove stale sheets from earlier sessions / crashes
+    _cleanCache() {
+        try {
+            const dir = Gio.File.new_for_path(CACHE_DIR);
+            const en = dir.enumerate_children('standard::name', Gio.FileQueryInfoFlags.NONE, null);
+            let info;
+            while ((info = en.next_file(null))) {
+                const name = info.get_name();
+                if (name.startsWith(`${this._ext.uuid}-`))
+                    dir.get_child(name).delete(null);
+            }
+            en.close(null);
+        } catch (e) {}
     }
 
     destroy() {
