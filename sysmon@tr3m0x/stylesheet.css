@@ -17,7 +17,7 @@
 .sysmon-item { spacing: 6px; }
 
 .sysmon-icon {
-    font-family: "JetBrainsMono Nerd Font Propo", "JetBrainsMono Nerd Font";
+    font-family: JetBrainsMono Nerd Font Propo; /* one unquoted name: St warns on lists */
     font-size: 1.1em;
 }
 
@@ -36,6 +36,6 @@
 }
 
 .sysmon-details {
-    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-family: monospace;
     font-size: 0.95em;
 }

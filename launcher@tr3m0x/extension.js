@@ -130,6 +130,7 @@ class Launcher {
         this._panel.width = width;
         this._panel.set_position(Math.round((mon.width - width) / 2), Math.round(mon.height * 0.22));
 
+        this._forceNew = false;
         this._entry.text = '';
         this._search();
 
@@ -247,7 +248,10 @@ class Launcher {
 
             row.add_child(box);
             const click = new Clutter.ClickGesture({required_button: Clutter.BUTTON_PRIMARY});
-            click.connect('recognize', () => this._launch(i));
+            click.connect('recognize', () => {
+                this._forceNew = false;
+                this._launch(i);
+            });
             row.add_action(click);
             row.connect('notify::hover', () => row.hover && this._select(i));
             this._list.add_child(row);

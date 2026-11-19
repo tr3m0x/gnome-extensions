@@ -96,9 +96,12 @@ class UsageIndicator extends PanelMenu.Button {
         this._ext = ext;
         this._settings = ext.getSettings();
         this._session = new Soup.Session({timeout: 15, user_agent: 'claude-usage-gnome/1.0'});
-        this._data = null;
-        this._error = null;
-        this._fetchedAt = 0;
+        // keep the last result across rebuilds (move/resize), so they don't refetch
+        const cache = ext._usageCache ?? {};
+        this._data = cache.data ?? null;
+        this._error = cache.error ?? null;
+        this._fetchedAt = cache.fetchedAt ?? 0;
+        this._plan = cache.plan;
         this.add_style_class_name('cu-button');
 
         // ── Panel pill:  ✻  5h 28% ▰▰▱ 2h13m │ 7d 14% ▰▱▱
@@ -139,7 +142,8 @@ class UsageIndicator extends PanelMenu.Button {
         ];
 
         this._render();
-        this._fetch();
+        if (Date.now() - this._fetchedAt > 60_000)
+            this._fetch();
         this._startTimers();
     }
 
@@ -230,6 +234,7 @@ class UsageIndicator extends PanelMenu.Button {
         this._plan = cred.plan ?? this._plan;
         if (cred.error) {
             this._error = cred.error;
+            this._saveCache();
             this._render();
             return;
         }
@@ -256,8 +261,13 @@ class UsageIndicator extends PanelMenu.Button {
             } catch (e) {
                 this._error = 'offline';
             }
+            this._saveCache();
             this._render();
         });
+    }
+
+    _saveCache() {
+        this._ext._usageCache = {data: this._data, error: this._error, fetchedAt: this._fetchedAt, plan: this._plan};
     }
 
     _render() {

@@ -151,8 +151,7 @@ class WorkspacesIndicator extends PanelMenu.Button {
 
     // (Re)create one button per workspace and watch each workspace's windows
     _rebuild() {
-        this._wsSignals.forEach(([ws, id]) => ws.disconnect(id));
-        this._wsSignals = [];
+        this._disconnectWorkspaces();
         this._pill.destroy_all_children();
         this._buttons = [];
 
@@ -214,6 +213,16 @@ class WorkspacesIndicator extends PanelMenu.Button {
             this._buttons.push({btn, name, dots});
         }
         this._refresh();
+    }
+
+    // a removed workspace may already be disposed: never let that break a rebuild
+    _disconnectWorkspaces() {
+        for (const [ws, id] of this._wsSignals ?? []) {
+            try {
+                ws.disconnect(id);
+            } catch (e) {}
+        }
+        this._wsSignals = [];
     }
 
     _queueRefresh() {
@@ -295,7 +304,7 @@ class WorkspacesIndicator extends PanelMenu.Button {
             this._refreshId = 0;
         }
         this._signals?.forEach(([obj, id]) => obj.disconnect(id));
-        this._wsSignals?.forEach(([ws, id]) => ws.disconnect(id));
+        this._disconnectWorkspaces();
         this._signals = this._wsSignals = null;
         this._buttons = null;
         super.destroy();

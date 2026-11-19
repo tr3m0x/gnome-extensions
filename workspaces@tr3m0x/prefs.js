@@ -15,7 +15,7 @@ export default class WorkspacesPrefs extends ExtensionPreferences {
         window.add(page);
 
         // Position
-        const pos = new Adw.PreferencesGroup({title: 'Position & size'});
+        const pos = new Adw.PreferencesGroup({title: 'Position and size'});
         page.add(pos);
         const box = new Adw.ComboRow({
             title: 'Panel area',

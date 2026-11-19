@@ -13,7 +13,7 @@ export default class ClaudeUsagePrefs extends ExtensionPreferences {
         const page = new Adw.PreferencesPage({title: 'General', icon_name: 'preferences-system-symbolic'});
         window.add(page);
 
-        const pos = new Adw.PreferencesGroup({title: 'Position & size'});
+        const pos = new Adw.PreferencesGroup({title: 'Position and size'});
         page.add(pos);
         const box = new Adw.ComboRow({
             title: 'Panel area',
