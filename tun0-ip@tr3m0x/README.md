@@ -17,3 +17,6 @@ From the repo root:
 
 ## Configure
 In `extension.js`, edit `IFACE_RE` to watch other interfaces, for example `/^(tun|wg)\d+$/` to add WireGuard, and `INTERVAL_S` to change how often it refreshes.
+
+## Colours
+Colours come from the shared theme: open **Settings → Theme**. It applies to all tr3m0x extensions at once. See the main README.

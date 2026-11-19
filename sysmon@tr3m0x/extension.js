@@ -8,6 +8,8 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {ThemeManager} from './theme.js';
+import themeCss from './themeCss.js';
 
 const decoder = new TextDecoder();
 const GiB = 1024 ** 3;
@@ -208,6 +210,8 @@ class SysMonIndicator extends PanelMenu.Button {
 
 export default class SysMonExtension extends Extension {
     enable() {
+        this._theme = new ThemeManager(this, themeCss);
+        this._theme.enable();
         this._settings = this.getSettings();
         this._posIds = ['panel-box', 'panel-index'].map(k =>
             this._settings.connect(`changed::${k}`, () => this._place()));
@@ -224,6 +228,8 @@ export default class SysMonExtension extends Extension {
     }
 
     disable() {
+        this._theme?.destroy();
+        this._theme = null;
         this._posIds?.forEach(id => this._settings.disconnect(id));
         this._posIds = null;
         this._indicator?.destroy();

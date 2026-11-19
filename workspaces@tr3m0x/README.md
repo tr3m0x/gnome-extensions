@@ -46,3 +46,6 @@ done
 These work with AZERTY too: GNOME matches the key position, so you don't need to press Shift.
 
 To hide GNOME's own workspace dots (the Activities button), use [Just Perfection](https://extensions.gnome.org/extension/3843/just-perfection/) → *Activities Button* off.
+
+## Colours
+Colours come from the shared theme: open **Settings → Theme**. It applies to all tr3m0x extensions at once. See the main README.

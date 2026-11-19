@@ -34,7 +34,11 @@ for name in "${NAMES[@]}"; do
     mkdir -p "$dest"
     cp -r "$uuid"/. "$dest"/
     rm -f "$dest/README.md"
-    [ -d "$dest/schemas" ] && glib-compile-schemas "$dest/schemas"
+    # shared theme: same palette/loader/prefs page + settings schema in every extension
+    cp shared/*.js "$dest"/
+    mkdir -p "$dest/schemas"
+    cp shared/*.gschema.xml "$dest/schemas"/
+    glib-compile-schemas "$dest/schemas"
     gnome-extensions enable "$uuid" 2>/dev/null || \
         gsettings set org.gnome.shell enabled-extensions \
             "$(gsettings get org.gnome.shell enabled-extensions | sed "s/]$/, '$uuid']/; s/^@as \[, /[/")"

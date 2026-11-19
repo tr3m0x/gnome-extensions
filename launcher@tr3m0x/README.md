@@ -40,10 +40,13 @@ gnome-extensions disable ubuntu-dock@ubuntu.com
 ```
 
 ## Customize
-- **Look:** edit `launcher@tr3m0x/stylesheet.css`.
+- **Look:** **Settings → Theme**, shared with the other extensions (open it from the Extensions app).
 - **Shortcut:**
   ```sh
   gsettings --schemadir ~/.local/share/gnome-shell/extensions/launcher@tr3m0x/schemas \
     set org.gnome.shell.extensions.launcher toggle-launcher "['<Super>r']"
   ```
 - **Number of results:** the `max-results` key in the same schema (3 to 15, default 8).
+
+## Colours
+Colours come from the shared theme: open **Settings → Theme**. It applies to all tr3m0x extensions at once. See the main README.

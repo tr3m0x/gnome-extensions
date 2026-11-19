@@ -6,6 +6,8 @@ import Shell from 'gi://Shell';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {ThemeManager} from './theme.js';
+import themeCss from './themeCss.js';
 
 const PANEL_WIDTH = 640;
 const ICON_SIZE = 32;
@@ -329,6 +331,8 @@ class Launcher {
 
 export default class LauncherExtension extends Extension {
     enable() {
+        this._theme = new ThemeManager(this, themeCss);
+        this._theme.enable();
         this._settings = this.getSettings();
         this._launcher = new Launcher(this._settings);
         Main.wm.addKeybinding('toggle-launcher', this._settings,
@@ -338,6 +342,8 @@ export default class LauncherExtension extends Extension {
     }
 
     disable() {
+        this._theme?.destroy();
+        this._theme = null;
         Main.wm.removeKeybinding('toggle-launcher');
         this._launcher?.destroy();
         this._launcher = null;

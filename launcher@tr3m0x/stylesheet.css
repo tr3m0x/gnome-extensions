@@ -1,29 +1,16 @@
-/* Launcher — black + Catppuccin Mocha accents */
-
-.launcher-backdrop {
-    background-color: rgba(0, 0, 0, 0.35);
-}
+/* Launcher — layout only. Colours come from the shared theme (themeCss.js). */
 
 .launcher-panel {
-    background-color: rgba(0, 0, 0, 0.94);
-    border: 1px solid rgba(203, 166, 247, 0.35);
-    border-radius: 16px;
     padding: 12px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
 }
 
 .launcher-bar {
-    background-color: #11111b;
-    border: 1px solid rgba(137, 180, 250, 0.25);
-    border-radius: 10px;
     padding: 4px 12px;
     spacing: 10px;
 }
 
-.launcher-search-icon {
-    icon-size: 18px;
-    color: #cba6f7;
-}
+.launcher-search-icon { icon-size: 18px; }
 
 .launcher-entry,
 .launcher-entry:focus,
@@ -31,16 +18,8 @@
     background-color: transparent;
     border: none;
     box-shadow: none;
-    color: #cdd6f4;
     font-size: 15pt;
     padding: 8px 0;
-    caret-color: #f5e0dc;
-    selection-background-color: #cba6f7;
-    selected-color: #000000;
-}
-
-.launcher-entry .hint-text {
-    color: #6c7086;
 }
 
 .launcher-list {
@@ -49,45 +28,24 @@
 }
 
 .launcher-row {
-    border-radius: 10px;
     padding: 7px 10px;
     background-color: transparent;
     border: 1px solid transparent;
 }
 
-.launcher-row:selected {
-    background-color: rgba(137, 180, 250, 0.14);
-    border-color: rgba(137, 180, 250, 0.35);
-}
+.launcher-row-box { spacing: 12px; }
 
-.launcher-row-box {
-    spacing: 12px;
-}
+.launcher-name { font-weight: bold; }
 
-.launcher-name {
-    color: #cdd6f4;
-    font-weight: bold;
-}
-
-.launcher-row:selected .launcher-name {
-    color: #89b4fa;
-}
-
-.launcher-desc {
-    color: #7f849c;
-    font-size: 0.85em;
-}
+.launcher-desc { font-size: 0.85em; }
 
 .launcher-badge {
-    color: #a6e3a1;
     font-size: 0.75em;
     padding: 1px 8px;
     border-radius: 999px;
-    border: 1px solid rgba(166, 227, 161, 0.4);
 }
 
 .launcher-empty {
-    color: #6c7086;
     padding: 16px;
     text-align: center;
 }

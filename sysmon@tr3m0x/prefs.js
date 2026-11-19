@@ -3,13 +3,14 @@ import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {addThemePage} from './themePrefs.js';
 
 const BOXES = ['left', 'center', 'right'];
 
 export default class SysMonPrefs extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
-        const page = new Adw.PreferencesPage();
+        const page = new Adw.PreferencesPage({title: 'General', icon_name: 'preferences-system-symbolic'});
         window.add(page);
 
         // Position
@@ -64,5 +65,7 @@ export default class SysMonPrefs extends ExtensionPreferences {
         });
         settings.bind('interval', interval, 'value', Gio.SettingsBindFlags.DEFAULT);
         misc.add(interval);
+
+        addThemePage(window, this);
     }
 }

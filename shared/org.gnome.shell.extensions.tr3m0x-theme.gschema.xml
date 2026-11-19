@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <!-- Shared by every tr3m0x extension: same id + path, so they all read/write the same values -->
+  <schema id="org.gnome.shell.extensions.tr3m0x-theme" path="/org/gnome/shell/extensions/tr3m0x-theme/">
+    <key name="preset" type="s">
+      <choices>
+        <choice value="catppuccin-mocha"/><choice value="tokyo-night"/><choice value="gruvbox"/>
+        <choice value="nord"/><choice value="dracula"/><choice value="rose-pine"/>
+      </choices>
+      <default>'catppuccin-mocha'</default>
+      <summary>Colour preset</summary>
+    </key>
+    <key name="accent" type="s">
+      <choices>
+        <choice value="purple"/><choice value="blue"/><choice value="green"/><choice value="yellow"/>
+        <choice value="red"/><choice value="gnome"/><choice value="custom"/>
+      </choices>
+      <default>'gnome'</default>
+      <summary>Accent: a preset colour, GNOME's accent colour, or custom</summary>
+    </key>
+    <key name="custom-accent" type="s">
+      <default>'#cba6f7'</default>
+      <summary>Custom accent colour (hex)</summary>
+    </key>
+    <key name="background" type="s">
+      <choices><choice value="preset"/><choice value="black"/><choice value="custom"/></choices>
+      <default>'preset'</default>
+      <summary>Pill background: preset, pure black, or custom</summary>
+    </key>
+    <key name="custom-background" type="s">
+      <default>'#000000'</default>
+      <summary>Custom pill background (hex)</summary>
+    </key>
+    <key name="background-opacity" type="d">
+      <range min="0.0" max="1.0"/>
+      <default>0.85</default>
+      <summary>Pill background opacity</summary>
+    </key>
+    <key name="border-opacity" type="d">
+      <range min="0.0" max="1.0"/>
+      <default>0.30</default>
+      <summary>Pill border strength (0 = no border)</summary>
+    </key>
+    <key name="radius" type="i">
+      <range min="0" max="999"/>
+      <default>999</default>
+      <summary>Corner radius in px (999 = fully round)</summary>
+    </key>
+  </schema>
+</schemalist>

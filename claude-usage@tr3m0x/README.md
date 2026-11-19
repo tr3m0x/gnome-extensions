@@ -41,4 +41,7 @@ From the repo root:
 On Wayland, log out and back in afterwards.
 
 ## Customize
-To change the look, edit `claude-usage@tr3m0x/stylesheet.css`. Each colour is labelled there.
+Colours: **Settings → Theme**, shared with the other extensions. The ✻ always stays Claude orange.
+
+## Colours
+Colours come from the shared theme: open **Settings → Theme**. It applies to all tr3m0x extensions at once. See the main README.

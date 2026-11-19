@@ -10,6 +10,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {ThemeManager} from './theme.js';
+import themeCss from './themeCss.js';
 
 const SCROLL_COOLDOWN_MS = 200;
 const MAX_DOTS = 3;
@@ -282,6 +284,8 @@ class WorkspacesIndicator extends PanelMenu.Button {
 
 export default class WorkspacesExtension extends Extension {
     enable() {
+        this._theme = new ThemeManager(this, themeCss);
+        this._theme.enable();
         this._settings = this.getSettings();
         this._posIds = ['panel-box', 'panel-index'].map(k =>
             this._settings.connect(`changed::${k}`, () => this._place()));
@@ -297,6 +301,8 @@ export default class WorkspacesExtension extends Extension {
     }
 
     disable() {
+        this._theme?.destroy();
+        this._theme = null;
         this._posIds?.forEach(id => this._settings.disconnect(id));
         this._posIds = null;
         this._indicator?.destroy();

@@ -28,7 +28,7 @@ From the repo root:
 On Wayland, log out and back in afterwards.
 
 ## Customize
-All the styling is in `sysmon@tr3m0x/stylesheet.css`: pill colours, icon colours, warning colours and spacing.
+Colours: **Settings → Theme**, shared with the other extensions. Layout and spacing are in `stylesheet.css`.
 To change the icons, edit the `ICONS` map at the top of `extension.js`.
 
 ## Files
@@ -38,3 +38,6 @@ To change the icons, edit the `ICONS` map at the top of `extension.js`.
 | `prefs.js` | Settings window (libadwaita) |
 | `stylesheet.css` | Look and feel |
 | `schemas/*.gschema.xml` | Settings keys (compiled by `install.sh`) |
+
+## Colours
+Colours come from the shared theme: open **Settings → Theme**. It applies to all tr3m0x extensions at once. See the main README.

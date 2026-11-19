@@ -8,6 +8,8 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {ThemeManager} from './theme.js';
+import themeCss from './themeCss.js';
 
 // Interfaces to watch: tun0, tun1, tun2, ...  (e.g. /^(tun|wg)\d+$/ to add WireGuard)
 const IFACE_RE = /^tun\d+$/;
@@ -16,19 +18,23 @@ const SCROLL_COOLDOWN_MS = 200;
 
 const TunIndicator = GObject.registerClass(
 class TunIndicator extends PanelMenu.Button {
-    _init() {
+    _init(ext) {
         super._init(0.0, 'tun IP', false);
+        this._ext = ext;
         this._tuns = [];        // [{iface, ip}] sorted by name
         this._selected = null;  // iface name the user picked
         this._lastScroll = 0;
         this._listKey = '';
 
-        const box = new St.BoxLayout({style_class: 'panel-status-menu-box'});
+        this.add_style_class_name('tun-button');
+        const box = new St.BoxLayout({style_class: 'tun-pill', y_align: Clutter.ActorAlign.CENTER});
         box.add_child(new St.Icon({
             icon_name: 'network-vpn-symbolic',
-            style_class: 'system-status-icon',
+            style_class: 'tun-icon',
+            y_align: Clutter.ActorAlign.CENTER,
         }));
         this._label = new St.Label({
+            style_class: 'tun-label',
             text: 'tun: …',
             y_align: Clutter.ActorAlign.CENTER,
         });
@@ -143,12 +149,12 @@ class TunIndicator extends PanelMenu.Button {
         const cur = this._current();
         if (!cur) {
             this._label.text = 'tun: down';
-            this.opacity = 128;
+            this.add_style_class_name('tun-down');
         } else {
             this._label.text = this._tuns.length > 1
                 ? `${cur.iface} ${cur.ip}  ${this._tuns.indexOf(cur) + 1}/${this._tuns.length}`
                 : cur.ip;
-            this.opacity = 255;
+            this.remove_style_class_name('tun-down');
         }
         this._menuItems?.forEach((item, iface) =>
             item.setOrnament(cur?.iface === iface ? PopupMenu.Ornament.CHECK : PopupMenu.Ornament.NONE));
@@ -160,6 +166,7 @@ class TunIndicator extends PanelMenu.Button {
         if (!this._tuns.length) {
             const item = new PopupMenu.PopupMenuItem('No active tun interfaces', {reactive: false});
             this.menu.addMenuItem(item);
+            this.menu.addAction('Theme…', () => this._ext.openPreferences());
             return;
         }
         for (const t of this._tuns) {
@@ -175,6 +182,7 @@ class TunIndicator extends PanelMenu.Button {
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         const hint = new PopupMenu.PopupMenuItem('Left-click: copy · Scroll: switch · Right-click: this menu', {reactive: false});
         this.menu.addMenuItem(hint);
+        this.menu.addAction('Theme…', () => this._ext.openPreferences());
     }
 
     _copy() {
@@ -200,11 +208,15 @@ class TunIndicator extends PanelMenu.Button {
 
 export default class TunIpExtension extends Extension {
     enable() {
-        this._indicator = new TunIndicator();
+        this._theme = new ThemeManager(this, themeCss);
+        this._theme.enable();
+        this._indicator = new TunIndicator(this);
         Main.panel.addToStatusArea(this.uuid, this._indicator, 0, 'right');
     }
 
     disable() {
+        this._theme?.destroy();
+        this._theme = null;
         this._indicator?.destroy();
         this._indicator = null;
     }

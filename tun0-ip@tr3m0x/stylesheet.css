@@ -1,0 +1,22 @@
+/* tun0 IP — layout only. Colours come from the shared theme (themeCss.js). */
+
+.panel-button.tun-button,
+.panel-button.tun-button:hover,
+.panel-button.tun-button:active,
+.panel-button.tun-button:checked {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.tun-pill {
+    padding: 0 12px;
+    margin: 3px 0;
+    spacing: 7px;
+}
+
+.tun-icon { icon-size: 14px; }
+
+.tun-label {
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
