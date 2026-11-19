@@ -1,0 +1,90 @@
+/* Workspaces — rounded pill, matches sysmon / claude-usage (Catppuccin Mocha) */
+
+.panel-button.ws-button,
+.panel-button.ws-button:hover,
+.panel-button.ws-button:active,
+.panel-button.ws-button:checked {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.ws-pill {
+    background-color: rgba(30, 30, 46, 0.85);
+    border: 1px solid rgba(137, 180, 250, 0.25);
+    border-radius: 999px;
+    padding: 2px 4px;
+    margin: 3px 0;
+    spacing: 2px;
+}
+
+.ws-button:hover .ws-pill,
+.ws-button:checked .ws-pill {
+    border-color: rgba(137, 180, 250, 0.5);
+}
+
+/* one chip per workspace */
+.ws-ws {
+    border-radius: 999px;
+    padding: 0 9px;
+    min-width: 14px;
+    transition-duration: 150ms;
+}
+
+.ws-ws:hover {
+    background-color: rgba(205, 214, 244, 0.10);
+}
+
+.ws-ws-box { spacing: 5px; }
+
+.ws-num {
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
+
+.ws-name { font-size: 0.9em; }
+
+.ws-dots {
+    font-size: 0.7em;
+    letter-spacing: 1px;
+}
+
+/* states */
+.ws-empty .ws-num,
+.ws-empty .ws-name   { color: #585b70; }
+
+.ws-occupied .ws-num { color: #cdd6f4; }
+.ws-occupied .ws-name { color: #a6adc8; }
+.ws-occupied .ws-dots { color: #7f849c; }
+
+.ws-active {
+    background-color: #89b4fa;
+}
+.ws-active:hover {
+    background-color: #b4befe;
+}
+.ws-active .ws-num,
+.ws-active .ws-name,
+.ws-active .ws-dots { color: #11111b; }
+
+/* menu */
+.ws-menu-title {
+    font-weight: bold;
+    color: #89b4fa;
+}
+
+/* rename dialog */
+.ws-rename-box {
+    spacing: 8px;
+    min-width: 320px;
+}
+.ws-rename-title {
+    font-weight: bold;
+    font-size: 1.15em;
+}
+.ws-rename-hint {
+    color: #7f849c;
+    font-size: 0.85em;
+}
+.ws-rename-entry {
+    margin-top: 6px;
+}

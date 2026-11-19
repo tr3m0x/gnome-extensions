@@ -1,0 +1,8 @@
+{
+  "uuid": "workspaces@tr3m0x",
+  "name": "Workspaces",
+  "description": "Rounded workspace bar for the top panel: click, scroll, rename.",
+  "shell-version": ["50"],
+  "settings-schema": "org.gnome.shell.extensions.workspaces",
+  "version": 1
+}

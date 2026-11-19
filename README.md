@@ -6,10 +6,11 @@ My GNOME Shell 50 top-bar extensions, all styled to match (black, Catppuccin Moc
 |---|---|---|
 | [**sysmon**](sysmon@tr3m0x/) | CPU, RAM and disk in a rounded pill with Nerd Font icons and colour-coded load | top left |
 | [**claude-usage**](claude-usage@tr3m0x/) | Claude 5-hour and weekly limits, with bars, reset countdown and a per-app breakdown | top right |
+| [**workspaces**](workspaces@tr3m0x/) | Rounded workspace bar: click or scroll to switch, right-click to rename, window dots | top left |
 | [**launcher**](launcher@tr3m0x/) | Omarchy-style app search that opens in the middle of the screen on **Super+Space** | n/a (overlay) |
 | [**tun0-ip**](tun0-ip@tr3m0x/) | VPN `tunN` IP in the top bar: click to copy, scroll to switch, right-click for the list | top right |
 
-sysmon and claude-usage can be moved at any time: right-click → *Move to*, or open their Settings.
+sysmon, claude-usage and workspaces can be moved at any time: right-click → *Move to*, or open their Settings.
 
 ## Install
 ```sh

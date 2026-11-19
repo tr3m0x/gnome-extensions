@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.workspaces" path="/org/gnome/shell/extensions/workspaces/">
+    <key name="panel-box" type="s">
+      <choices><choice value="left"/><choice value="center"/><choice value="right"/></choices>
+      <default>'left'</default>
+      <summary>Panel area</summary>
+    </key>
+    <key name="panel-index" type="i">
+      <range min="0" max="20"/>
+      <default>1</default>
+      <summary>Position inside the panel area (0 = first)</summary>
+    </key>
+    <key name="show-names" type="b"><default>true</default><summary>Show workspace names next to numbers</summary></key>
+    <key name="show-empty" type="b"><default>true</default><summary>Show workspaces that have no windows</summary></key>
+    <key name="show-dots" type="b"><default>true</default><summary>Show a dot per window (max 3) on each workspace</summary></key>
+    <key name="scroll-wrap" type="b"><default>false</default><summary>Scrolling past the last workspace wraps to the first</summary></key>
+    <key name="active-toggles-overview" type="b"><default>true</default><summary>Clicking the active workspace toggles the overview</summary></key>
+  </schema>
+</schemalist>
