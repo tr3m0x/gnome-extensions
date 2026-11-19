@@ -35,6 +35,7 @@ class TunIndicator extends PanelMenu.Button {
         box.add_child(this._label);
         this.add_child(box);
 
+        this._setupClicks();
         this._refresh();
         this._timer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, INTERVAL_S, () => {
             this._refresh();
@@ -42,27 +43,25 @@ class TunIndicator extends PanelMenu.Button {
         });
     }
 
-    // Left click = copy, right/middle click = menu, scroll = cycle tuns
+    // Scroll = cycle tuns (clicks are handled by gestures set up in _setupClicks)
     vfunc_event(event) {
-        const type = event.type();
-        if (type === Clutter.EventType.BUTTON_PRESS) {
-            if (event.get_button() === Clutter.BUTTON_PRIMARY) {
-                this.menu.close();
-                this._copy();
-            } else {
-                this.menu.toggle();
-            }
-            return Clutter.EVENT_STOP;
-        }
-        if (type === Clutter.EventType.TOUCH_BEGIN) {
-            this._copy();
-            return Clutter.EVENT_STOP;
-        }
-        if (type === Clutter.EventType.SCROLL) {
+        if (event.type() === Clutter.EventType.SCROLL) {
             this._onScroll(event);
             return Clutter.EVENT_STOP;
         }
         return Clutter.EVENT_PROPAGATE;
+    }
+
+    // GNOME 50 uses click gestures: PanelMenu.Button's own gesture opens the menu
+    // on press for any button. Limit it to right-click, and add left-click = copy.
+    _setupClicks() {
+        this._clickGesture?.set_required_button(Clutter.BUTTON_SECONDARY);
+        const copyClick = new Clutter.ClickGesture({required_button: Clutter.BUTTON_PRIMARY});
+        copyClick.connect('recognize', () => {
+            this.menu.close();
+            this._copy();
+        });
+        this.add_action(copyClick);
     }
 
     _onScroll(event) {
@@ -174,7 +173,7 @@ class TunIndicator extends PanelMenu.Button {
             this.menu.addMenuItem(item);
         }
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-        const hint = new PopupMenu.PopupMenuItem('Left-click: copy · Scroll: switch', {reactive: false});
+        const hint = new PopupMenu.PopupMenuItem('Left-click: copy · Scroll: switch · Right-click: this menu', {reactive: false});
         this.menu.addMenuItem(hint);
     }
 

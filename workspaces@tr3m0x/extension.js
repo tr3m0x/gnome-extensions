@@ -79,7 +79,6 @@ class WorkspacesIndicator extends PanelMenu.Button {
         this._wsm = global.workspace_manager;
         this._wsSignals = [];
         this._lastScroll = 0;
-        this._menuTarget = null;
         this.add_style_class_name('ws-button');
 
         this._pill = new St.BoxLayout({style_class: 'ws-pill', y_align: Clutter.ActorAlign.CENTER});
@@ -96,22 +95,17 @@ class WorkspacesIndicator extends PanelMenu.Button {
                 [this._settings, this._settings.connect(`changed::${k}`, () => this._refresh())]),
         ];
 
+        // GNOME 50: PanelMenu.Button opens its menu through a press gesture on the
+        // whole button, which would swallow clicks on the workspace chips. Turn it
+        // off — each chip has its own left/right click gestures instead.
+        this._clickGesture?.set_enabled(false);
+
         this._rebuild();
     }
 
-    // Right-click anywhere on the bar = menu (remembering which workspace),
-    // scroll = switch workspace. Left-clicks are handled by the workspace buttons.
+    // Scroll anywhere on the bar = switch workspace
     vfunc_event(event) {
-        const type = event.type();
-        if (type === Clutter.EventType.BUTTON_PRESS || type === Clutter.EventType.TOUCH_BEGIN) {
-            if (type === Clutter.EventType.BUTTON_PRESS && event.get_button() === Clutter.BUTTON_SECONDARY) {
-                this._buildMenu(this._menuTarget ?? this._wsm.get_active_workspace_index());
-                this.menu.toggle();
-            }
-            this._menuTarget = null;
-            return Clutter.EVENT_STOP;
-        }
-        if (type === Clutter.EventType.SCROLL) {
+        if (event.type() === Clutter.EventType.SCROLL) {
             this._onScroll(event);
             return Clutter.EVENT_STOP;
         }
@@ -167,7 +161,12 @@ class WorkspacesIndicator extends PanelMenu.Button {
                 [ws, ws.connect('window-added', () => this._queueRefresh())],
                 [ws, ws.connect('window-removed', () => this._queueRefresh())]);
 
-            const btn = new St.Button({style_class: 'ws-ws', y_align: Clutter.ActorAlign.CENTER});
+            const btn = new St.BoxLayout({
+                style_class: 'ws-ws',
+                reactive: true,
+                track_hover: true,
+                y_align: Clutter.ActorAlign.CENTER,
+            });
             const box = new St.BoxLayout({style_class: 'ws-ws-box'});
             const num = new St.Label({style_class: 'ws-num', text: `${i + 1}`, y_align: Clutter.ActorAlign.CENTER});
             const name = new St.Label({style_class: 'ws-name', y_align: Clutter.ActorAlign.CENTER});
@@ -175,21 +174,27 @@ class WorkspacesIndicator extends PanelMenu.Button {
             box.add_child(num);
             box.add_child(name);
             box.add_child(dots);
-            btn.set_child(box);
+            btn.add_child(box);
 
-            btn.connect('clicked', () => {
+            // Left click: switch (or Overview on the active one)
+            const leftClick = new Clutter.ClickGesture({required_button: Clutter.BUTTON_PRIMARY});
+            leftClick.connect('recognize', () => {
                 if (i === this._wsm.get_active_workspace_index() &&
                     this._settings.get_boolean('active-toggles-overview'))
                     Main.overview.toggle();
                 else
                     this._activate(i);
             });
-            // remember which workspace a right-click landed on (the menu opens in vfunc_event)
-            btn.connect('button-press-event', (_b, ev) => {
-                if (ev.get_button() === Clutter.BUTTON_SECONDARY)
-                    this._menuTarget = i;
-                return Clutter.EVENT_PROPAGATE;
+            btn.add_action(leftClick);
+
+            // Right click: menu for this workspace
+            const rightClick = new Clutter.ClickGesture({required_button: Clutter.BUTTON_SECONDARY});
+            rightClick.set_recognize_on_press(true);
+            rightClick.connect('recognize', () => {
+                this._buildMenu(i);
+                this.menu.toggle();
             });
+            btn.add_action(rightClick);
 
             this._pill.add_child(btn);
             this._buttons.push({btn, name, dots});

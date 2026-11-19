@@ -65,9 +65,13 @@ class Launcher {
             const [x, y] = ev.get_coords();
             const [px, py] = this._panel.get_transformed_position();
             const [pw, ph] = this._panel.get_transformed_size();
-            if (x < px || x > px + pw || y < py || y > py + ph)
+            if (x < px || x > px + pw || y < py || y > py + ph) {
                 this.close();
-            return Clutter.EVENT_STOP;
+                return Clutter.EVENT_STOP;
+            }
+            // Inside the panel: let the click through. Stopping it here would cancel
+            // the result rows' click gestures (GNOME 50) — that's why only Enter worked.
+            return Clutter.EVENT_PROPAGATE;
         });
 
         this._panel = new St.BoxLayout({
@@ -214,7 +218,12 @@ class Launcher {
     _renderRows() {
         this._list.destroy_all_children();
         this._rows = this._results.map((app, i) => {
-            const row = new St.Button({style_class: 'launcher-row', x_expand: true, can_focus: false});
+            const row = new St.BoxLayout({
+                style_class: 'launcher-row',
+                x_expand: true,
+                reactive: true,
+                track_hover: true,
+            });
             const box = new St.BoxLayout({style_class: 'launcher-row-box', x_expand: true});
             box.add_child(app.create_icon_texture(ICON_SIZE));
 
@@ -232,8 +241,10 @@ class Launcher {
             if (app.get_state() === Shell.AppState.RUNNING)
                 box.add_child(new St.Label({style_class: 'launcher-badge', text: 'running', y_align: Clutter.ActorAlign.CENTER}));
 
-            row.set_child(box);
-            row.connect('clicked', () => this._launch(i));
+            row.add_child(box);
+            const click = new Clutter.ClickGesture({required_button: Clutter.BUTTON_PRIMARY});
+            click.connect('recognize', () => this._launch(i));
+            row.add_action(click);
             row.connect('notify::hover', () => row.hover && this._select(i));
             this._list.add_child(row);
             return row;
