@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.sysmon" path="/org/gnome/shell/extensions/sysmon/">
+    <key name="panel-box" type="s">
+      <choices><choice value="left"/><choice value="center"/><choice value="right"/></choices>
+      <default>'left'</default>
+      <summary>Panel area (left, center, right)</summary>
+    </key>
+    <key name="panel-index" type="i">
+      <range min="0" max="20"/>
+      <default>1</default>
+      <summary>Position inside the panel area (0 = first)</summary>
+    </key>
+    <key name="interval" type="i">
+      <range min="1" max="60"/>
+      <default>2</default>
+      <summary>Refresh interval in seconds</summary>
+    </key>
+    <key name="show-cpu" type="b"><default>true</default><summary>Show CPU</summary></key>
+    <key name="show-mem" type="b"><default>true</default><summary>Show memory</summary></key>
+    <key name="show-disk" type="b"><default>true</default><summary>Show disk</summary></key>
+    <key name="disk-path" type="s">
+      <default>'/'</default>
+      <summary>Mount point used for disk usage</summary>
+    </key>
+    <key name="disk-format" type="s">
+      <choices><choice value="free"/><choice value="used-total"/></choices>
+      <default>'free'</default>
+      <summary>Disk display: free space, or used / total</summary>
+    </key>
+    <key name="show-icons" type="b"><default>true</default><summary>Show icons instead of CPU/RAM/DISK words</summary></key>
+  </schema>
+</schemalist>

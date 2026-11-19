@@ -1,0 +1,67 @@
+/* SysMon — Catppuccin Mocha pill */
+
+.sysmon-pill {
+    background-color: rgba(30, 30, 46, 0.85);
+    border: 1px solid rgba(203, 166, 247, 0.25);
+    border-radius: 999px;
+    padding: 0 12px;
+    margin: 3px 0;
+}
+
+.sysmon-button:hover .sysmon-pill,
+.sysmon-button:active .sysmon-pill,
+.sysmon-button:checked .sysmon-pill {
+    background-color: rgba(49, 50, 68, 0.95);
+    border-color: rgba(203, 166, 247, 0.55);
+}
+
+/* the panel's own hover background would draw a square behind the pill */
+.panel-button.sysmon-button,
+.panel-button.sysmon-button:hover,
+.panel-button.sysmon-button:active,
+.panel-button.sysmon-button:checked {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.sysmon-item {
+    spacing: 6px;
+}
+
+.sysmon-icon {
+    font-family: "JetBrainsMono Nerd Font Propo", "JetBrainsMono Nerd Font";
+    font-size: 1.1em;
+}
+
+.sysmon-word {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.sysmon-cpu  .sysmon-icon, .sysmon-cpu  .sysmon-word { color: #89b4fa; } /* blue  */
+.sysmon-mem  .sysmon-icon, .sysmon-mem  .sysmon-word { color: #cba6f7; } /* mauve */
+.sysmon-disk .sysmon-icon, .sysmon-disk .sysmon-word { color: #a6e3a1; } /* green */
+
+.sysmon-value {
+    color: #cdd6f4;
+    font-feature-settings: "tnum";
+}
+
+.sysmon-unit {
+    color: #7f849c;
+    font-size: 0.85em;
+}
+
+.sysmon-warn { color: #f9e2af; } /* > 70% */
+.sysmon-crit { color: #f38ba8; } /* > 90% */
+
+.sysmon-sep {
+    width: 1px;
+    background-color: rgba(205, 214, 244, 0.18);
+    margin: 7px 10px;
+}
+
+.sysmon-details {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 0.95em;
+}

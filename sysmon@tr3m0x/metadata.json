@@ -1,0 +1,8 @@
+{
+  "uuid": "sysmon@tr3m0x",
+  "name": "SysMon Text",
+  "description": "Text-only CPU, memory and disk usage in the top bar. Position adjustable.",
+  "shell-version": ["50"],
+  "settings-schema": "org.gnome.shell.extensions.sysmon",
+  "version": 1
+}

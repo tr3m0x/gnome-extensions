@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.launcher" path="/org/gnome/shell/extensions/launcher/">
+    <key name="toggle-launcher" type="as">
+      <default><![CDATA[['<Super>space']]]></default>
+      <summary>Shortcut to open/close the launcher</summary>
+    </key>
+    <key name="max-results" type="i">
+      <range min="3" max="15"/>
+      <default>8</default>
+      <summary>Number of results shown</summary>
+    </key>
+  </schema>
+</schemalist>

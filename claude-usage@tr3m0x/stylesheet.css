@@ -1,0 +1,148 @@
+/* Claude Usage — black pill, Claude-orange accent, Catppuccin status colours */
+
+/* ── Panel ─────────────────────────────────────────────────────────────── */
+.panel-button.cu-button,
+.panel-button.cu-button:hover,
+.panel-button.cu-button:active,
+.panel-button.cu-button:checked {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.cu-pill {
+    background-color: rgba(30, 30, 46, 0.85);
+    border: 1px solid rgba(217, 119, 87, 0.35);
+    border-radius: 999px;
+    padding: 0 12px;
+    margin: 3px 0;
+    spacing: 8px;
+}
+
+.cu-button:hover .cu-pill,
+.cu-button:checked .cu-pill {
+    background-color: rgba(49, 50, 68, 0.95);
+    border-color: rgba(217, 119, 87, 0.7);
+}
+
+.cu-logo {
+    color: #d97757;
+    font-size: 1.15em;
+    font-weight: bold;
+}
+
+.cu-seg { spacing: 6px; }
+
+.cu-tag {
+    color: #7f849c;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.cu-val {
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
+
+.cu-reset {
+    color: #7f849c;
+    font-size: 0.85em;
+    font-feature-settings: "tnum";
+}
+
+.cu-msg {
+    color: #7f849c;
+    font-size: 0.9em;
+}
+
+.cu-sep {
+    width: 1px;
+    background-color: rgba(205, 214, 244, 0.18);
+    margin: 7px 2px;
+}
+
+/* ── Bars ──────────────────────────────────────────────────────────────── */
+.cu-track {
+    background-color: rgba(205, 214, 244, 0.12);
+    border-radius: 999px;
+}
+.cu-track-panel { height: 6px; }
+.cu-track-menu  { height: 8px; margin: 6px 0 4px 0; }
+
+.cu-fill { border-radius: 999px; }
+.cu-track-panel .cu-fill { height: 6px; }
+.cu-track-menu  .cu-fill { height: 8px; }
+.cu-fill.cu-ok   { background-color: #a6e3a1; }
+.cu-fill.cu-warn { background-color: #f9e2af; }
+.cu-fill.cu-crit { background-color: #f38ba8; }
+
+/* status text colours */
+.cu-ok   { color: #a6e3a1; }
+.cu-warn { color: #f9e2af; }
+.cu-crit { color: #f38ba8; }
+
+/* ── Dropdown card ─────────────────────────────────────────────────────── */
+.cu-menu { min-width: 300px; }
+
+.cu-menu-logo {
+    color: #d97757;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.cu-menu-title {
+    color: #cdd6f4;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.cu-plan {
+    color: #d97757;
+    font-size: 0.75em;
+    font-weight: bold;
+    padding: 1px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(217, 119, 87, 0.5);
+}
+
+.cu-block { padding: 2px 0; }
+
+.cu-block-title {
+    color: #cdd6f4;
+    font-weight: bold;
+}
+
+.cu-block-pct {
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
+
+.cu-block-sub {
+    color: #7f849c;
+    font-size: 0.85em;
+}
+
+.cu-break { spacing: 3px; }
+
+.cu-break-title {
+    color: #a6adc8;
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.cu-break-name {
+    color: #bac2de;
+    font-size: 0.9em;
+}
+
+.cu-break-val {
+    color: #7f849c;
+    font-size: 0.85em;
+    font-feature-settings: "tnum";
+}
+
+.cu-status {
+    color: #6c7086;
+    font-size: 0.8em;
+}

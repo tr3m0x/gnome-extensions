@@ -1,0 +1,8 @@
+{
+  "uuid": "claude-usage@tr3m0x",
+  "name": "Claude Usage",
+  "description": "Claude 5-hour and weekly usage limits in the top bar.",
+  "shell-version": ["50"],
+  "settings-schema": "org.gnome.shell.extensions.claude-usage",
+  "version": 1
+}

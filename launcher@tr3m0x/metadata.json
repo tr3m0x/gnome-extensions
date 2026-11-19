@@ -1,0 +1,8 @@
+{
+  "uuid": "launcher@tr3m0x",
+  "name": "Launcher",
+  "description": "Centered app search bar on Super+Space (Omarchy-style).",
+  "shell-version": ["50"],
+  "settings-schema": "org.gnome.shell.extensions.launcher",
+  "version": 1
+}
