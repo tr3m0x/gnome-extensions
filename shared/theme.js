@@ -67,7 +67,9 @@ export class ThemeManager {
 
     _isLoaded() {
         const theme = St.ThemeContext.get_for_stage(global.stage).get_theme();
-        return theme.get_custom_stylesheets().some(f => f.equal(this._file));
+        if (!this._file)
+            return false;
+        return (theme.get_custom_stylesheets() ?? []).some(f => f?.equal?.(this._file));
     }
 
     _apply() {

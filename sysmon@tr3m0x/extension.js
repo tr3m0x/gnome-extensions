@@ -221,6 +221,7 @@ export default class SysMonExtension extends Extension {
     // (Re)create the indicator at the configured panel position
     _place() {
         this._indicator?.destroy();
+        Main.panel.statusArea[this.uuid]?.destroy(); // leftover from a racing enable
         this._indicator = new SysMonIndicator(this);
         Main.panel.addToStatusArea(this.uuid, this._indicator,
             this._settings.get_int('panel-index'),

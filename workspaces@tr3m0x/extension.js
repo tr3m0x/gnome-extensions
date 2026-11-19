@@ -294,6 +294,7 @@ export default class WorkspacesExtension extends Extension {
 
     _place() {
         this._indicator?.destroy();
+        Main.panel.statusArea[this.uuid]?.destroy(); // leftover from a racing enable
         this._indicator = new WorkspacesIndicator(this);
         Main.panel.addToStatusArea(this.uuid, this._indicator,
             this._settings.get_int('panel-index'),

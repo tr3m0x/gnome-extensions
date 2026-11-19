@@ -210,6 +210,7 @@ export default class TunIpExtension extends Extension {
     enable() {
         this._theme = new ThemeManager(this, themeCss);
         this._theme.enable();
+        Main.panel.statusArea[this.uuid]?.destroy(); // leftover from a racing enable
         this._indicator = new TunIndicator(this);
         Main.panel.addToStatusArea(this.uuid, this._indicator, 0, 'right');
     }
