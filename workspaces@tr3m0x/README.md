@@ -34,3 +34,15 @@ On Wayland, log out and back in afterwards. If you used **Space Bar** before, di
 ```sh
 gnome-extensions disable space-bar@luchrioh
 ```
+
+### Keyboard shortcuts and the Activities dots
+GNOME's "switch to workspace N" shortcuts are empty by default, and Space Bar sets its own. To get Super+1…5 to switch workspaces:
+```sh
+for i in 1 2 3 4 5; do
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-$i "['<Super>$i']"
+done
+# Super+Shift+N (move window to workspace N) is already GNOME's default
+```
+These work with AZERTY too: GNOME matches the key position, so you don't need to press Shift.
+
+To hide GNOME's own workspace dots (the Activities button), use [Just Perfection](https://extensions.gnome.org/extension/3843/just-perfection/) → *Activities Button* off.
