@@ -4,12 +4,12 @@ A rounded workspace bar for the GNOME Shell top bar, styled to match sysmon and 
 
 ```
 ╭──────────────────────────────────╮
-│ ( 1 web •• )  2 code •  3   4   5 │
+│ ( 1 web )  2 code  3   4   5 │
 ╰──────────────────────────────────╯
 ```
 
 - The **active** workspace is a filled blue chip.
-- Workspaces **with windows** are bright, with one dot per window (up to 3).
+- Workspaces **with windows** are bright. Optional window dots can be turned on in Settings.
 - **Empty** workspaces are dimmed. They can also be hidden in Settings.
 
 ## Use

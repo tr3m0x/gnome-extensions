@@ -13,7 +13,7 @@
     </key>
     <key name="show-names" type="b"><default>true</default><summary>Show workspace names next to numbers</summary></key>
     <key name="show-empty" type="b"><default>true</default><summary>Show workspaces that have no windows</summary></key>
-    <key name="show-dots" type="b"><default>true</default><summary>Show a dot per window (max 3) on each workspace</summary></key>
+    <key name="show-dots" type="b"><default>false</default><summary>Show a dot per window (max 3) on each workspace</summary></key>
     <key name="scroll-wrap" type="b"><default>false</default><summary>Scrolling past the last workspace wraps to the first</summary></key>
     <key name="active-toggles-overview" type="b"><default>true</default><summary>Clicking the active workspace toggles the overview</summary></key>
   </schema>
