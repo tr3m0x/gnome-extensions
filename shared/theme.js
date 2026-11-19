@@ -35,9 +35,17 @@ export class ThemeManager {
             this._iface = null;
         }
 
-        // the shell swaps its whole theme object on theme reloads: re-add our sheet
+        // The shell swaps its whole theme object on theme reloads, dropping our sheet.
+        // Only re-add it when it is really gone: loading a sheet itself emits 'changed',
+        // so reacting blindly would loop forever (and make the whole shell lag).
         const ctx = St.ThemeContext.get_for_stage(global.stage);
-        this._ids.push([ctx, ctx.connect('changed', () => this._queue())]);
+        this._ids.push([ctx, ctx.connect('changed', () => {
+            if (this._file && !this._isLoaded()) {
+                this._file = null;   // that theme object is gone, nothing to unload
+                this._lastCss = null;
+                this._queue();
+            }
+        })]);
 
         GLib.mkdir_with_parents(CACHE_DIR, 0o755);
         this._apply();
@@ -57,6 +65,11 @@ export class ThemeManager {
         });
     }
 
+    _isLoaded() {
+        const theme = St.ThemeContext.get_for_stage(global.stage).get_theme();
+        return theme.get_custom_stylesheets().some(f => f.equal(this._file));
+    }
+
     _apply() {
         let css;
         try {
@@ -65,6 +78,10 @@ export class ThemeManager {
             logError(e, `${this._ext.uuid}: theme css`);
             return;
         }
+        // nothing changed (e.g. an unrelated setting) → don't touch the shell theme
+        if (css === this._lastCss && this._file && this._isLoaded())
+            return;
+        this._lastCss = css;
         // a fresh file name each time, so St never serves a cached sheet
         const path = GLib.build_filenamev([CACHE_DIR, `${this._ext.uuid}-${this._counter++}.css`]);
         const file = Gio.File.new_for_path(path);
