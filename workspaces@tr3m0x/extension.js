@@ -169,8 +169,20 @@ class WorkspacesIndicator extends PanelMenu.Button {
                 track_hover: true,
                 y_align: Clutter.ActorAlign.CENTER,
             });
-            const box = new St.BoxLayout({style_class: 'ws-ws-box'});
-            const num = new St.Label({style_class: 'ws-num', text: `${i + 1}`, y_align: Clutter.ActorAlign.CENTER});
+            // centred inside the chip: a single digit is narrower than the chip's
+            // min-width, and left-aligned it made the active pill lopsided
+            const box = new St.BoxLayout({
+                style_class: 'ws-ws-box',
+                x_expand: true,
+                x_align: Clutter.ActorAlign.CENTER,
+                y_align: Clutter.ActorAlign.CENTER,
+            });
+            const num = new St.Label({
+                style_class: 'ws-num',
+                text: `${i + 1}`,
+                x_align: Clutter.ActorAlign.CENTER,
+                y_align: Clutter.ActorAlign.CENTER,
+            });
             const name = new St.Label({style_class: 'ws-name', y_align: Clutter.ActorAlign.CENTER});
             const dots = new St.Label({style_class: 'ws-dots', y_align: Clutter.ActorAlign.CENTER});
             box.add_child(num);

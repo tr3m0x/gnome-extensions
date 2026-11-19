@@ -25,6 +25,7 @@
 
 .ws-num {
     font-weight: bold;
+    text-align: center;
     font-feature-settings: "tnum";
 }
 
