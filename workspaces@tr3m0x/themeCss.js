@@ -1,5 +1,7 @@
 // Colour rules for Workspaces, generated from the shared theme palette
-export default p => `
+export default (p, s = 1) => {
+    const px = v => `${Math.round(v * s * 10) / 10}px`;
+    return `
 .ws-pill {
     background-color: ${p.bg};
     border: 1px solid ${p.border};
@@ -22,4 +24,10 @@ export default p => `
 
 .ws-menu-title { color: ${p.accent}; }
 .ws-rename-hint { color: ${p.muted}; }
+
+/* size */
+.ws-pill { font-size: ${s}em; padding: ${px(2)} ${px(4)}; spacing: ${px(2)}; }
+.ws-ws   { padding: 0 ${px(9)}; min-width: ${px(14)}; }
+.ws-ws-box { spacing: ${px(5)}; }
 `;
+};

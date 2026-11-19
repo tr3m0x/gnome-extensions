@@ -21,6 +21,7 @@ class TunIndicator extends PanelMenu.Button {
     _init(ext) {
         super._init(0.0, 'tun IP', false);
         this._ext = ext;
+        this._ownSettings = ext.getSettings();
         this._tuns = [];        // [{iface, ip}] sorted by name
         this._selected = null;  // iface name the user picked
         this._lastScroll = 0;
@@ -166,7 +167,7 @@ class TunIndicator extends PanelMenu.Button {
         if (!this._tuns.length) {
             const item = new PopupMenu.PopupMenuItem('No active tun interfaces', {reactive: false});
             this.menu.addMenuItem(item);
-            this.menu.addAction('Theme…', () => this._ext.openPreferences());
+            this.menu.addAction('Size & theme…', () => this._ext.openPreferences());
             return;
         }
         for (const t of this._tuns) {
@@ -182,7 +183,14 @@ class TunIndicator extends PanelMenu.Button {
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         const hint = new PopupMenu.PopupMenuItem('Left-click: copy · Scroll: switch · Right-click: this menu', {reactive: false});
         this.menu.addMenuItem(hint);
-        this.menu.addAction('Theme…', () => this._ext.openPreferences());
+        const sizeMenu = new PopupMenu.PopupSubMenuMenuItem('Size');
+        const bump = d => this._ownSettings.set_double('scale',
+            Math.round(Math.min(1.6, Math.max(0.6, this._ownSettings.get_double('scale') + d)) * 100) / 100);
+        sizeMenu.menu.addAction('Larger  (+10%)', () => bump(0.1));
+        sizeMenu.menu.addAction('Smaller  (−10%)', () => bump(-0.1));
+        sizeMenu.menu.addAction('Reset  (100%)', () => this._ownSettings.reset('scale'));
+        this.menu.addMenuItem(sizeMenu);
+        this.menu.addAction('Size & theme…', () => this._ext.openPreferences());
     }
 
     _copy() {

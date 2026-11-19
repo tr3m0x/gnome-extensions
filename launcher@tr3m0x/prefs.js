@@ -23,6 +23,15 @@ export default class LauncherPrefs extends ExtensionPreferences {
         settings.bind('max-results', max, 'value', Gio.SettingsBindFlags.DEFAULT);
         group.add(max);
 
+        const size = new Adw.SpinRow({
+            title: 'Size',
+            subtitle: '1.00 = normal · applies instantly',
+            digits: 2,
+            adjustment: new Gtk.Adjustment({lower: 0.6, upper: 1.6, step_increment: 0.05}),
+        });
+        settings.bind('scale', size, 'value', Gio.SettingsBindFlags.DEFAULT);
+        group.add(size);
+
         addThemePage(window, this);
     }
 }

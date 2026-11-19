@@ -109,7 +109,7 @@ class UsageIndicator extends PanelMenu.Button {
             const box = new St.BoxLayout({style_class: 'cu-seg'});
             const t = new St.Label({style_class: 'cu-tag', text: tag, y_align: Clutter.ActorAlign.CENTER});
             const v = new St.Label({style_class: 'cu-val', text: '--', y_align: Clutter.ActorAlign.CENTER});
-            const bar = makeBar(PANEL_BAR_W, 'cu-track-panel');
+            const bar = makeBar(PANEL_BAR_W * this._settings.get_double('scale'), 'cu-track-panel');
             box.add_child(t);
             box.add_child(v);
             box.add_child(bar);
@@ -195,6 +195,14 @@ class UsageIndicator extends PanelMenu.Button {
         move.menu.addAction('Shift right ▶', () =>
             this._settings.set_int('panel-index', Math.min(20, this._settings.get_int('panel-index') + 1)));
         this.menu.addMenuItem(move);
+
+        const sizeMenu = new PopupMenu.PopupSubMenuMenuItem('Size');
+        const bump = d => this._settings.set_double('scale',
+            Math.round(Math.min(1.6, Math.max(0.6, this._settings.get_double('scale') + d)) * 100) / 100);
+        sizeMenu.menu.addAction('Larger  (+10%)', () => bump(0.1));
+        sizeMenu.menu.addAction('Smaller  (−10%)', () => bump(-0.1));
+        sizeMenu.menu.addAction('Reset  (100%)', () => this._settings.reset('scale'));
+        this.menu.addMenuItem(sizeMenu);
         this.menu.addAction('Settings…', () => this._ext.openPreferences());
     }
 
@@ -342,7 +350,8 @@ export default class ClaudeUsageExtension extends Extension {
         this._theme = new ThemeManager(this, themeCss);
         this._theme.enable();
         this._settings = this.getSettings();
-        this._posIds = ['panel-box', 'panel-index'].map(k =>
+        // 'scale' too: the panel bars' width is set in JS, so rebuild on resize
+        this._posIds = ['panel-box', 'panel-index', 'scale'].map(k =>
             this._settings.connect(`changed::${k}`, () => this._place()));
         this._place();
     }

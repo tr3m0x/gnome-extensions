@@ -91,6 +91,14 @@ class SysMonIndicator extends PanelMenu.Button {
             this._settings.set_int('panel-index', Math.min(20, this._settings.get_int('panel-index') + 1)));
         this.menu.addMenuItem(move);
 
+        const sizeMenu = new PopupMenu.PopupSubMenuMenuItem('Size');
+        const bump = d => this._settings.set_double('scale',
+            Math.round(Math.min(1.6, Math.max(0.6, this._settings.get_double('scale') + d)) * 100) / 100);
+        sizeMenu.menu.addAction('Larger  (+10%)', () => bump(0.1));
+        sizeMenu.menu.addAction('Smaller  (−10%)', () => bump(-0.1));
+        sizeMenu.menu.addAction('Reset  (100%)', () => this._settings.reset('scale'));
+        this.menu.addMenuItem(sizeMenu);
+
         this.menu.addAction('Settings…', () => this._ext.openPreferences());
     }
 

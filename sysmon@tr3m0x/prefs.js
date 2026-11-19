@@ -14,7 +14,7 @@ export default class SysMonPrefs extends ExtensionPreferences {
         window.add(page);
 
         // Position
-        const pos = new Adw.PreferencesGroup({title: 'Position'});
+        const pos = new Adw.PreferencesGroup({title: 'Position & size'});
         page.add(pos);
 
         const box = new Adw.ComboRow({
@@ -32,6 +32,15 @@ export default class SysMonPrefs extends ExtensionPreferences {
         });
         settings.bind('panel-index', index, 'value', Gio.SettingsBindFlags.DEFAULT);
         pos.add(index);
+
+        const size = new Adw.SpinRow({
+            title: 'Size',
+            subtitle: '1.00 = normal · applies instantly',
+            digits: 2,
+            adjustment: new Gtk.Adjustment({lower: 0.6, upper: 1.6, step_increment: 0.05}),
+        });
+        settings.bind('scale', size, 'value', Gio.SettingsBindFlags.DEFAULT);
+        pos.add(size);
 
         // Content
         const show = new Adw.PreferencesGroup({title: 'Show'});

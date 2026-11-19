@@ -13,7 +13,7 @@ export default class ClaudeUsagePrefs extends ExtensionPreferences {
         const page = new Adw.PreferencesPage({title: 'General', icon_name: 'preferences-system-symbolic'});
         window.add(page);
 
-        const pos = new Adw.PreferencesGroup({title: 'Position'});
+        const pos = new Adw.PreferencesGroup({title: 'Position & size'});
         page.add(pos);
         const box = new Adw.ComboRow({
             title: 'Panel area',
@@ -29,6 +29,15 @@ export default class ClaudeUsagePrefs extends ExtensionPreferences {
         });
         settings.bind('panel-index', index, 'value', Gio.SettingsBindFlags.DEFAULT);
         pos.add(index);
+
+        const size = new Adw.SpinRow({
+            title: 'Size',
+            subtitle: '1.00 = normal · applies instantly',
+            digits: 2,
+            adjustment: new Gtk.Adjustment({lower: 0.6, upper: 1.6, step_increment: 0.05}),
+        });
+        settings.bind('scale', size, 'value', Gio.SettingsBindFlags.DEFAULT);
+        pos.add(size);
 
         const show = new Adw.PreferencesGroup({title: 'Panel content'});
         page.add(show);

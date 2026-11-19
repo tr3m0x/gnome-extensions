@@ -1,6 +1,8 @@
 // Colour rules for Claude Usage, generated from the shared theme palette.
 // The ✻ logo and plan badge always keep Claude's brand orange (p.claude).
-export default p => `
+export default (p, s = 1) => {
+    const px = v => `${Math.round(v * s * 10) / 10}px`;
+    return `
 .cu-pill {
     background-color: ${p.bg};
     border: 1px solid ${p.border};
@@ -32,4 +34,11 @@ export default p => `
 .cu-break-title { color: ${p.subtext}; }
 .cu-break-name  { color: ${p.subtext}; }
 .cu-status      { color: ${p.dim}; }
+
+/* size */
+.cu-pill { font-size: ${s}em; padding: 0 ${px(12)}; spacing: ${px(8)}; }
+.cu-seg  { spacing: ${px(6)}; }
+.cu-sep  { margin: ${px(7)} ${px(2)}; }
+.cu-track-panel, .cu-track-panel .cu-fill { height: ${px(6)}; }
 `;
+};

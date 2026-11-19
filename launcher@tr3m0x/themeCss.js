@@ -1,5 +1,7 @@
 // Colour rules for the Launcher, generated from the shared theme palette
-export default p => `
+export default (p, s = 1) => {
+    const px = v => `${Math.round(v * s * 10) / 10}px`;
+    return `
 .launcher-backdrop { background-color: rgba(0, 0, 0, 0.35); }
 
 .launcher-panel {
@@ -39,4 +41,13 @@ export default p => `
     border: 1px solid ${p.a(p.ok, 0.4)};
 }
 .launcher-empty { color: ${p.dim}; }
+
+/* size */
+.launcher-panel { font-size: ${s}em; padding: ${px(12)}; }
+.launcher-bar   { padding: ${px(4)} ${px(12)}; spacing: ${px(10)}; }
+.launcher-search-icon { icon-size: ${px(18)}; }
+.launcher-entry, .launcher-entry:focus, .launcher-entry:hover { font-size: ${15 * s}pt; padding: ${px(8)} 0; }
+.launcher-row   { padding: ${px(7)} ${px(10)}; }
+.launcher-row-box { spacing: ${px(12)}; }
 `;
+};

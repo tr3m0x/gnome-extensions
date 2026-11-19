@@ -1,5 +1,7 @@
 // Colour rules for SysMon, generated from the shared theme palette
-export default p => `
+export default (p, s = 1) => {
+    const px = v => `${Math.round(v * s * 10) / 10}px`;
+    return `
 .sysmon-pill {
     background-color: ${p.bg};
     border: 1px solid ${p.border};
@@ -19,4 +21,10 @@ export default p => `
 .sysmon-warn  { color: ${p.warn}; }
 .sysmon-crit  { color: ${p.crit}; }
 .sysmon-sep   { background-color: ${p.a(p.text, 0.18)}; }
+
+/* size */
+.sysmon-pill { font-size: ${s}em; padding: 0 ${px(12)}; }
+.sysmon-item { spacing: ${px(6)}; }
+.sysmon-sep  { margin: ${px(7)} ${px(10)}; }
 `;
+};

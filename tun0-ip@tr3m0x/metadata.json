@@ -2,6 +2,9 @@
   "uuid": "tun0-ip@tr3m0x",
   "name": "tun IP",
   "description": "Shows tun0/tun1/... IPv4 in the top bar. Left-click copies, scroll switches, right-click lists all.",
-  "shell-version": ["50"],
-  "version": 2
+  "shell-version": [
+    "50"
+  ],
+  "version": 2,
+  "settings-schema": "org.gnome.shell.extensions.tun0-ip"
 }

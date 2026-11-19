@@ -12,6 +12,8 @@ My GNOME Shell 50 top-bar extensions, all styled to match (black, Catppuccin Moc
 
 sysmon, claude-usage and workspaces can be moved at any time: right-click → *Move to*, or open their Settings.
 
+**Size:** every extension has its own **Size** setting (0.6× to 1.6×). Change it from right-click → *Size* (Larger / Smaller / Reset) or from Settings. It applies instantly.
+
 
 ## Theme (shared by all extensions)
 Every extension's **Settings → Theme** tab edits the **same** colours, so they always match. Changes apply instantly, with no logout.
@@ -31,6 +33,7 @@ git clone <repo-url> gnome-extensions && cd gnome-extensions
 ./install.sh sysmon claude-usage     # only some
 ./install.sh --free-shortcut launcher   # launcher + take Super+Space from layout switching
 ./install.sh --list
+./install.sh --no-enable             # only copy files (updating mid-session)
 ```
 On Wayland, **log out and back in** after installing or updating.
 

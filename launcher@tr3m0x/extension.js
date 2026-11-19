@@ -126,7 +126,9 @@ class Launcher {
         const mon = Main.layoutManager.currentMonitor ?? Main.layoutManager.primaryMonitor;
         this._backdrop.set_position(mon.x, mon.y);
         this._backdrop.set_size(mon.width, mon.height);
-        this._panel.set_position(Math.round((mon.width - PANEL_WIDTH) / 2), Math.round(mon.height * 0.22));
+        const width = Math.min(Math.round(PANEL_WIDTH * this._settings.get_double('scale')), mon.width - 32);
+        this._panel.width = width;
+        this._panel.set_position(Math.round((mon.width - width) / 2), Math.round(mon.height * 0.22));
 
         this._entry.text = '';
         this._search();
@@ -227,7 +229,7 @@ class Launcher {
                 track_hover: true,
             });
             const box = new St.BoxLayout({style_class: 'launcher-row-box', x_expand: true});
-            box.add_child(app.create_icon_texture(ICON_SIZE));
+            box.add_child(app.create_icon_texture(Math.round(ICON_SIZE * this._settings.get_double('scale'))));
 
             const texts = new St.BoxLayout({
                 orientation: Clutter.Orientation.VERTICAL,

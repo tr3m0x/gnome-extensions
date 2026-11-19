@@ -1,5 +1,5 @@
 // Shell-side theme loader shared by all tr3m0x extensions.
-// Each extension passes a cssFn(palette) → string with its colour rules; this
+// Each extension passes a cssFn(palette, scale) → string with its colour rules; this
 // writes it to a cache file and (re)loads it into the shell theme whenever the
 // shared theme settings or GNOME's accent colour change — no relogin needed.
 
@@ -24,6 +24,17 @@ export class ThemeManager {
     enable() {
         this._settings = this._ext.getSettings(THEME_SCHEMA);
         this._ids.push([this._settings, this._settings.connect('changed', () => this._queue())]);
+
+        // per-extension size: the extension's own 'scale' key (if it has one)
+        try {
+            this._own = this._ext.getSettings();
+            if (this._own.settings_schema.has_key('scale'))
+                this._ids.push([this._own, this._own.connect('changed::scale', () => this._queue())]);
+            else
+                this._own = null;
+        } catch (e) {
+            this._own = null;
+        }
 
         try {
             this._iface = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
@@ -51,6 +62,10 @@ export class ThemeManager {
         this._apply();
     }
 
+    get scale() {
+        return this._own?.get_double('scale') ?? 1;
+    }
+
     get palette() {
         return buildPalette(this._settings, this._iface?.get_string('accent-color') ?? null);
     }
@@ -75,7 +90,7 @@ export class ThemeManager {
     _apply() {
         let css;
         try {
-            css = this._cssFn(this.palette);
+            css = this._cssFn(this.palette, this.scale);
         } catch (e) {
             logError(e, `${this._ext.uuid}: theme css`);
             return;
@@ -120,5 +135,6 @@ export class ThemeManager {
         this._unload();
         this._settings = null;
         this._iface = null;
+        this._own = null;
     }
 }

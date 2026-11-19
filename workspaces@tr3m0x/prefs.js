@@ -15,7 +15,7 @@ export default class WorkspacesPrefs extends ExtensionPreferences {
         window.add(page);
 
         // Position
-        const pos = new Adw.PreferencesGroup({title: 'Position'});
+        const pos = new Adw.PreferencesGroup({title: 'Position & size'});
         page.add(pos);
         const box = new Adw.ComboRow({
             title: 'Panel area',
@@ -31,6 +31,15 @@ export default class WorkspacesPrefs extends ExtensionPreferences {
         });
         settings.bind('panel-index', index, 'value', Gio.SettingsBindFlags.DEFAULT);
         pos.add(index);
+
+        const size = new Adw.SpinRow({
+            title: 'Size',
+            subtitle: '1.00 = normal · applies instantly',
+            digits: 2,
+            adjustment: new Gtk.Adjustment({lower: 0.6, upper: 1.6, step_increment: 0.05}),
+        });
+        settings.bind('scale', size, 'value', Gio.SettingsBindFlags.DEFAULT);
+        pos.add(size);
 
         // Behaviour
         const look = new Adw.PreferencesGroup({title: 'Behaviour'});
